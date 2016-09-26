@@ -406,8 +406,11 @@ namespace LetsEncrypt.ACME.Simple
 
         private static void CreateConfigPath()
         {
-            _configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ClientName,
-                CleanFileName(BaseUri));
+            // Environment.SpecialFolder.ApplicationData does not return the path for the correct user when executing as a task
+            // in some occassions. There is a hotfix at https://support.microsoft.com/en-us/kb/3133689, but it isn't always installed.
+            // This solution is described here: http://serverfault.com/a/640875
+            var appdata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "..", Environment.UserName, "AppData", "Roaming");
+            _configPath = Path.Combine(appdata, ClientName, CleanFileName(BaseUri));
             Console.WriteLine("Config Folder: " + _configPath);
             Log.Information("Config Folder: {_configPath}", _configPath);
             Directory.CreateDirectory(_configPath);
