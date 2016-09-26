@@ -44,7 +44,7 @@ namespace LetsEncrypt.ACME.Simple
         [Option(HelpText = "Keep existing HTTPS bindings, and certificates")]
         public bool KeepExisting { get; set; }
 
-        [Option(HelpText = "Warmup sites before authorization")]
+        [Option(Default = true, HelpText = "Warmup sites before authorization")]
         public bool Warmup { get; set; }
     }
 }
