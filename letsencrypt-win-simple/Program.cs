@@ -947,15 +947,15 @@ namespace LetsEncrypt.ACME.Simple
 
                 if (addTask == true)
                 {
-                    Console.WriteLine($" Creating Task {taskName} with Windows Task Scheduler at 9am every day.");
-                    Log.Information("Creating Task {taskName} with Windows Task scheduler at 9am every day.", taskName);
+                    Console.WriteLine($" Creating Task {taskName} with Windows Task Scheduler at 6am every day.");
+                    Log.Information("Creating Task {taskName} with Windows Task scheduler at 6am every day.", taskName);
 
                     // Create a new task definition and assign properties
                     var task = taskService.NewTask();
                     task.RegistrationInfo.Description = "Check for renewal of ACME certificates.";
 
                     var now = DateTime.Now;
-                    var runtime = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
+                    var runtime = new DateTime(now.Year, now.Month, now.Day, 6, 0, 0);
                     task.Triggers.Add(new DailyTrigger { DaysInterval = 1, StartBoundary = runtime });
 
                     var currentExec = Assembly.GetExecutingAssembly().Location;
