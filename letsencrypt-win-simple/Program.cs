@@ -967,9 +967,11 @@ namespace LetsEncrypt.ACME.Simple
                     task.Principal.RunLevel = TaskRunLevel.Highest; // need admin
                     Log.Debug("{@task}", task);
 
-                    Console.WriteLine($"\nDo you want to specify the user the task will run as? (Y/N) ");
-                    if (PromptYesNo())
-                    {
+                    // Force the user to enter credentials, otherwise the task will not run unattended
+                    Console.WriteLine($"\nSpecify the user the task will run as");
+                    //Console.WriteLine($"\nDo you want to specify the user the task will run as? (Y/N) ");
+                    //if (PromptYesNo())
+                    //{
                         // Ask for the login and password to allow the task to run 
                         Console.Write("Enter the username (Domain\\username): ");
                         var username = Console.ReadLine();
@@ -978,12 +980,12 @@ namespace LetsEncrypt.ACME.Simple
                         Log.Debug("Creating task to run as {username}", username);
                         taskService.RootFolder.RegisterTaskDefinition(taskName, task, TaskCreation.Create, username,
                             password, TaskLogonType.Password);
-                    }
-                    else
-                    {
-                        Log.Debug("Creating task to run as current user only when the user is logged on");
-                        taskService.RootFolder.RegisterTaskDefinition(taskName, task);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    Log.Debug("Creating task to run as current user only when the user is logged on");
+                    //    taskService.RootFolder.RegisterTaskDefinition(taskName, task);
+                    //}
                     _settings.ScheduledTaskName = taskName;
                 }
             }
